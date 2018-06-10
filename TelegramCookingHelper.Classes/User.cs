@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace TelegramCookingHelper.Classes
 {
-    public class MainIngredient
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string WhereToBuy { get; set; }
+        public List<Dish> FavouriteDishes { get; set; }
     }
 }

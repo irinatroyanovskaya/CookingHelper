@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TelegramCookingHelper.Classes
 {
-    class Meal
+    public class Meal
     {
         public int Id { get; set; }
         public string Name { get; set; }
