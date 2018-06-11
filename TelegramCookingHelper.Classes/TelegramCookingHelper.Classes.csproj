@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context.cs" />
+    <Compile Include="DatabaseRepository.cs" />
     <Compile Include="Dish.cs" />
     <Compile Include="MainIngredient.cs" />
     <Compile Include="Meal.cs" />

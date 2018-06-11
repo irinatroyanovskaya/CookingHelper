@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TelegramCookingHelper.Classes
 {
-    class Context:DbContext
+    public class Context:DbContext
     {
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<MainIngredient> Ingredients { get; set; }
