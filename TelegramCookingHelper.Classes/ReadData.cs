@@ -12,7 +12,7 @@ namespace TelegramCookingHelper.Classes
         public List<Dish> Dishes { get; set; }
         public List<Meal> Meals { get; set; }
         public List<MainIngredient> Ingredients { get; set; }
-        const string filename = "Data.txt";
+        const string filename = "Core.txt";
 
         public ReadData()
         {
