@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TelegramCookingHelper.Classes.Models;
 using static TelegramCookingHelper.Classes.DatabaseRepository;
 
 namespace TelegramCookingHelper.Classes.Interfaces

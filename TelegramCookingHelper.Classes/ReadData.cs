@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TelegramCookingHelper.Classes.Models;
+
 
 namespace TelegramCookingHelper.Classes
 {
@@ -45,7 +45,7 @@ namespace TelegramCookingHelper.Classes
             {
                 var line = sr.ReadLine();
                 var parts = line.Split(';');
-                var ingredient = new MainIngredient { Name = parts[0], Price = Decimal.Parse(parts[1]), WhereToBuy = parts[2] };
+                var ingredient = new MainIngredient { Name = parts[0], Price = Decimal.Parse(parts[1]), WhereToBuy = parts[2], ImageReference=parts[3]};
                 ingredients.Add(ingredient);
             } 
             return ingredients;

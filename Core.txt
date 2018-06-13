@@ -1,15 +1,15 @@
 ﻿Первое блюдо;Второе блюдо;Закуска;Десерт;Напиток;Соус
 10
-Фейхоа;1369;fruitonline.ru
-Тамарилло;96;www.perekrestok.ru
-Гранадилла;149;www.perekrestok.ru
-Артишок;392;av.ru
-Киноа;250;Супермаркет ВкусВилл
-Нут;93;www.perekrestok.ru
-Финик;450;kupifinik.ru
-Кокос;72;www.perekrestok.ru
-Желтый арбуз;245;av.ru
-Капуста романеско;428;av.ru
+Фейхоа;1369;fruitonline.ru;https://legkopolezno.ru/wp-content/uploads/2016/07/91-fejhoa.jpg
+Тамарилло;96;www.perekrestok.ru;http://o-polze.com/wp-content/uploads/2016/01/tamarillo1.jpg
+Гранадилла;149;www.perekrestok.ru;https://siamstorespb.ru/image/cache/catalog/banery/depositphotos_3607563_original-794x532.jpg
+Артишок;392;av.ru;http://receptov.net/uploads/posts/2015-01/1421856893_artishok.jpg
+Киноа;250;Супермаркет ВкусВилл;https://edaplus.info/food_pictures/quinoa.jpg
+Нут;93;www.perekrestok.ru;http://receitas-faceis.e-menta.pt/wp-content/uploads/2016/03/grao-de-bico1.jpg
+Финик;450;kupifinik.ru;https://dailystory.me/wp-content/uploads/2016/06/121589_or.jpg
+Кокос;72;www.perekrestok.ru;http://okeydoc.ru/wp-content/uploads/2015/11/fotolia_10494975.jpg
+Желтый арбуз;245;av.ru;http://www.factroom.ru/facts/wp-content/uploads/2011/11/346.jpg
+Капуста романеско;428;av.ru;https://freshmart.com.ua/images/558/mainimg/7add92d17f896cc469c9c673e8e58ca4_big.jpeg
 18
 Штрудель с фейхоа и маскарпоне;Десерт;Фейхоа;Снять с фейхоа кожуру, мягкий плод разрезать на пластинки и засыпать половиной ванильного и обычного сахара, оставить на полчаса. Грубую кожицу фейхоа измельчить в блендере с маскарпоне, яичным белком и второй половиной сахара.Тесто раскатать, промазать сливочным маслом и получившимся соусом (пару столовых ложек соуса оставить на потом). Слить сок и выложить засахаренные ломтики фейхоа (сок тоже оставить на потом). Добавить в начинку еще немного маскарпоне и свернуть тесто в рулет. Смазать рулет сливочным маслом и яичным желтком. Выпекать при температуре 180 градусов 25–30 минут.
 Витаминный салат с фейхоа;Закуска;Фейхоа;Яблоко и морковь натираем на крупной терке. Грецкие орехи измельчаем в блендере. У фейхоа отрезаем соцветия, режем на несколько частей и закладываем в блендер к орехам. Все вместе измельчаем до состояния пюре. Смешиваем в салетнице все ингредиенты, добавляем ложку меда, тщательно перемешиваем и подаем.

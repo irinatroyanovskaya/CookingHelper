@@ -15,6 +15,6 @@ namespace TelegramCookingHelper.Classes
 
         private IRepository _repo;
 
-        public IRepository GetRepository() => _repo ?? (_repo = new DatabaseRepository());
+        public IRepository GetRepository() => _repo ?? (_repo = (IRepository)(new DatabaseRepository()));
     }
 }

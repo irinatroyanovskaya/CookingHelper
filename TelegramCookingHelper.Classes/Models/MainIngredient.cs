@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TelegramCookingHelper.Classes.Models
+namespace TelegramCookingHelper.Classes
 {
     public class MainIngredient
     {
@@ -12,5 +12,6 @@ namespace TelegramCookingHelper.Classes.Models
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string WhereToBuy { get; set; }
+        public string ImageReference { get; set; }
     }
 }
