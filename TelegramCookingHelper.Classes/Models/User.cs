@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TelegramCookingHelper.Classes
+namespace TelegramCookingHelper.Classes.Models
 {
-    public class MainIngredient
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string WhereToBuy { get; set; }
+        public List<Dish> FavouriteDishes { get; set; }
     }
 }

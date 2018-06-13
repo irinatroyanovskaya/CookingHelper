@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TelegramCookingHelper.Classes
+namespace TelegramCookingHelper.Classes.Models
 {
     public class Meal
     {
