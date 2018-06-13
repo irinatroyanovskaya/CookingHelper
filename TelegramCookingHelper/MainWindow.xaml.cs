@@ -21,6 +21,7 @@ namespace TelegramCookingHelper
     /// </summary>
     public partial class MainWindow : Window
     {
+        BotRepository _bot = new BotRepository();
         public MainWindow()
         {
             InitializeComponent();
