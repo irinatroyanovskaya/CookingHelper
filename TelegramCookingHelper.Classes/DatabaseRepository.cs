@@ -8,7 +8,7 @@ namespace TelegramCookingHelper.Classes
 {
     public class DatabaseRepository
     {
-        public Context Context { get; set; }
+        public Context Context { get; set; } = new Context();
 
         public List<Meal> ShowMeals() 
         {
@@ -24,7 +24,7 @@ namespace TelegramCookingHelper.Classes
         {
             Random rnd = new Random();
             var numberOfIngredient = rnd.Next(0, Context.Dishes.Where(d=>d.Meal.Id==meal.Id).Select(d=>d.MainIngredient).Count() - 1);
-            return Context.Ingredients.ToList()[numberOfIngredient];
+            return Context.Dishes.Where(d => d.Meal.Id == meal.Id).Select(d => d.MainIngredient).ToList()[numberOfIngredient];
         }
 
         public void SaveDish(Dish dish, User user)
