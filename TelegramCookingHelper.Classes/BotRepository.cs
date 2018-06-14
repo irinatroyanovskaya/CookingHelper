@@ -12,6 +12,8 @@ namespace TelegramCookingHelper.Classes
     {
         MainIngredient _ingr;
         Meal _meal;
+        Dish _dish;
+        User _user;
 
         public TelegramBotClient BotClient { get; set; } = new TelegramBotClient("555593986:AAGnkMf_Sl_ImOlrrSPgokDg3s19O15hzO0");
         public DatabaseRepository Repo { get; set; } = new DatabaseRepository();
@@ -21,6 +23,23 @@ namespace TelegramCookingHelper.Classes
             BotClient.OnMessage += BotClient_OnMessage;
             BotClient.OnCallbackQuery += BotClient_OnCallbackQuery;
             BotClient.StartReceiving();
+        }
+
+        public void ShowSavedDishes(string userName, long chatId)
+        {
+            if (Repo.Context.Users.Any(u => u.Name == userName))
+            {
+                if (Repo.Context.SavedDishes.Where(sd => sd.User.Name == userName).Count() == 0)
+                    BotClient.SendTextMessageAsync(chatId, "К сожалению, у вас нет сохраненных рецептов");
+                else
+                    CreateOneRowInlineKeyboard(CreateDishButtons(Repo.ShowSavedDishes(Repo.Context.Users.First(u => u.Name == userName))), "Нажмите на блюдо, чтобы увидеть рецепт", chatId);
+            }
+            else
+            {
+                BotClient.SendTextMessageAsync(chatId, "Вы пишете мне в первый раз, " +
+                    "поэтому я зарегистрирую вас в базе, и у вас будет возможность сохранить понравившиеся рецепты");
+                Repo.CreateUser(userName);
+            }
         }
 
         public void ShowMainMenu(long chatId)
@@ -52,6 +71,17 @@ namespace TelegramCookingHelper.Classes
             BotClient.SendTextMessageAsync(chatId, "Рассчитать еще раз?", replyMarkup: keyboard);
         }
 
+        public List<InlineKeyboardButton> CreateDishButtons(List<Dish> dishes)
+        {
+            var dishButtons = new List<InlineKeyboardButton>();
+            foreach (var dish in dishes)
+            {
+                var button = InlineKeyboardButton.WithCallbackData(dish.Name);
+                dishButtons.Add(button);
+            }
+            return dishButtons;
+        }
+
         public void CreateOneRowInlineKeyboard(List<InlineKeyboardButton> buttons, string textMessageToSend, long chatId)
         {
             var inlineKeyboard = new InlineKeyboardMarkup(buttons);
@@ -66,9 +96,25 @@ namespace TelegramCookingHelper.Classes
                 _meal = Repo.Context.Meals.First(m => m.Name == selectedMealName);
                 GetIngredient(_meal, e.CallbackQuery.Message.Chat.Id);
             }
-            if (Repo.Context.Dishes.Any(d => d.Name == e.CallbackQuery.Data))
+            if (Repo.Context.SavedDishes.Any(sd=>sd.Dish.Name==e.CallbackQuery.Data) && _user!=null)
             {
                 var dishName = e.CallbackQuery.Data;
+                _dish = Repo.Context.Dishes.First(d => d.Name == dishName);
+                var keyboard = new ReplyKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        new KeyboardButton("Удали рецепт из сохранённых"),
+                        new KeyboardButton("Вернись в список рецептов"),
+                        new KeyboardButton("Верни главное меню")
+                    }
+                });
+                BotClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, _dish.Recipe, replyMarkup: keyboard);
+            }
+            else if (Repo.Context.Dishes.Any(d => d.Name == e.CallbackQuery.Data))
+            {
+                var dishName = e.CallbackQuery.Data;
+                _dish = Repo.Context.Dishes.First(d => d.Name == dishName);
                 var keyboard = new ReplyKeyboardMarkup(new[]
                 {
                     new[]
@@ -77,7 +123,7 @@ namespace TelegramCookingHelper.Classes
                         new KeyboardButton("Верни главное меню")
                     }
                 });
-                BotClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, Repo.Context.Dishes.First(d => d.Name == dishName).Recipe, replyMarkup: keyboard);
+                BotClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, _dish.Recipe, replyMarkup: keyboard);
             }
         }
 
@@ -110,33 +156,20 @@ namespace TelegramCookingHelper.Classes
                     break;
 
                 case "Покажи сохраненные рецепты":
-                    var userName = e.Message.From.FirstName + e.Message.From.LastName;
-                    if (Repo.Context.Users.Any(u => u.Name == userName))
-                    {
-                        if (Repo.Context.Users.First(u => u.Name == userName).FavouriteDishes == null || Repo.Context.Users.First(u => u.Name == userName).FavouriteDishes.Count == 0)
-                            BotClient.SendTextMessageAsync(message.Chat.Id, "К сожалению, у вас нет сохраненных рецептов");
-                        else
-                        {
-                            foreach (var dish in Repo.Context.Users.First(u => u.Name == userName).FavouriteDishes.ToList())
-                                BotClient.SendTextMessageAsync(message.Chat.Id, dish.Name);
-                        }
-                    }
-                    else
-                    {
-                        BotClient.SendTextMessageAsync(message.Chat.Id, "Вы пишете мне в первый раз, " +
-                            "поэтому я зарегистрирую вас в базе, и у вас будет возможность сохранить понравившиеся рецепты");
-                        Repo.CreateUser(userName);
-                    }
+                    ShowSavedDishes(e.Message.From.FirstName + e.Message.From.LastName, message.Chat.Id);
+                    _user = Repo.Context.Users.First(u => u.Name == message.From.FirstName + message.From.LastName);
                     break;
 
                 case "Нет, покажи список блюд":
-                    List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
-                    foreach (var dish in Repo.ShowPossibleDishes(_ingr))
-                    {
-                        var button = InlineKeyboardButton.WithCallbackData(dish.Name);
-                        buttons.Add(button);
-                    }
-                    CreateOneRowInlineKeyboard(buttons, "Нажмите на блюдо, чтобы увидеть рецепт", message.Chat.Id);
+                    _user = null;
+                    CreateOneRowInlineKeyboard(CreateDishButtons(Repo.ShowPossibleDishes(_ingr, _meal)), "Нажмите на блюдо, чтобы увидеть рецепт", message.Chat.Id);
+                    break;
+
+                case "Сохрани рецепт":
+                    if (!Repo.Context.Users.Any(u => u.Name == e.Message.From.FirstName + e.Message.From.LastName))
+                        Repo.CreateUser(e.Message.From.FirstName + e.Message.From.LastName);
+                    Repo.SaveDish(_dish, Repo.Context.Users.First(u => u.Name == e.Message.From.FirstName + e.Message.From.LastName));
+                    BotClient.SendTextMessageAsync(message.Chat.Id, "Рецепт сохранен!");
                     break;
 
                 case "Да, рассчитай заново":
@@ -145,6 +178,15 @@ namespace TelegramCookingHelper.Classes
 
                 case "Верни главное меню":
                     ShowMainMenu(message.Chat.Id);
+                    break;
+
+                case "Вернись в список рецептов":
+                    ShowSavedDishes(e.Message.From.FirstName + e.Message.From.LastName, message.Chat.Id);
+                    break;
+
+                case "Удали рецепт из сохранённых":
+                    Repo.DeleteDish(_dish, Repo.Context.Users.First(u => u.Name == e.Message.From.FirstName + e.Message.From.LastName));
+                    BotClient.SendTextMessageAsync(message.Chat.Id, "Рецепт удален!");
                     break;
             }
         }

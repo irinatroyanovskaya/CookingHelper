@@ -81,13 +81,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201806100702002_Initial.cs" />
-    <Compile Include="Migrations\201806100702002_Initial.Designer.cs">
-      <DependentUpon>201806100702002_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806131545190_MainIngredientModelChanged.cs" />
-    <Compile Include="Migrations\201806131545190_MainIngredientModelChanged.Designer.cs">
-      <DependentUpon>201806131545190_MainIngredientModelChanged.cs</DependentUpon>
+    <Compile Include="Migrations\201806141733141_Initial.cs" />
+    <Compile Include="Migrations\201806141733141_Initial.Designer.cs">
+      <DependentUpon>201806141733141_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -103,11 +99,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201806100702002_Initial.resx">
-      <DependentUpon>201806100702002_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806131545190_MainIngredientModelChanged.resx">
-      <DependentUpon>201806131545190_MainIngredientModelChanged.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806141733141_Initial.resx">
+      <DependentUpon>201806141733141_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

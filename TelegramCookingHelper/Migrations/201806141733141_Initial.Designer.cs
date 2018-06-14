@@ -7,13 +7,13 @@ namespace TelegramCookingHelper.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class MainIngredientModelChanged : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MainIngredientModelChanged));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201806131545190_MainIngredientModelChanged"; }
+            get { return "201806141733141_Initial"; }
         }
         
         string IMigrationMetadata.Source

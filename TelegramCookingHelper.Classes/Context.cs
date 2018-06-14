@@ -13,6 +13,7 @@ namespace TelegramCookingHelper.Classes
         public DbSet<MainIngredient> Ingredients { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SavedDish> SavedDishes { get; set; }
 
         public Context() : base("localsql")
         { }

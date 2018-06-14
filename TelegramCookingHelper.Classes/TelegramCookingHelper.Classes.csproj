@@ -61,6 +61,7 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Models\MainIngredient.cs" />
     <Compile Include="Models\Meal.cs" />
+    <Compile Include="Models\SavedDish.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadData.cs" />
     <Compile Include="Models\User.cs" />

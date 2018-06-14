@@ -10,38 +10,46 @@ namespace TelegramCookingHelper.Classes
     {
         public Context Context { get; set; } = new Context();
 
-        public List<Meal> ShowMeals() 
+        public List<Meal> ShowMeals()
         {
             return Context.Meals.ToList();
         }
 
-        public List<Dish> ShowPossibleDishes(MainIngredient ingr) //возвращает список блюд, которые можно приготовить из данного ингредиента
+        public List<Dish> ShowPossibleDishes(MainIngredient ingr, Meal meal) //возвращает список блюд, которые можно приготовить из данного ингредиента
         {
-            return Context.Dishes.Where(d => d.MainIngredient.Id == ingr.Id).ToList();
+            return Context.Dishes.Where(d => d.MainIngredient.Id == ingr.Id && d.Meal.Id == meal.Id).ToList();
         }
 
         public MainIngredient FindRandomIngredient(Meal meal) //находит случайны ингредиент для данного типа еды 
         {
             Random rnd = new Random();
-            var numberOfIngredient = rnd.Next(0, Context.Dishes.Where(d=>d.Meal.Id==meal.Id).Select(d=>d.MainIngredient).Count() - 1);
+            var numberOfIngredient = rnd.Next(0, Context.Dishes.Where(d => d.Meal.Id == meal.Id).Select(d => d.MainIngredient).Count());
             return Context.Dishes.Where(d => d.Meal.Id == meal.Id).Select(d => d.MainIngredient).ToList()[numberOfIngredient];
         }
 
         public void SaveDish(Dish dish, User user)
         {
-            Context.Users.First(u => u.Id == user.Id).FavouriteDishes.Add(dish);
+            if (Context.SavedDishes.Any(sd => sd.User.Id == user.Id && sd.Dish.Id == dish.Id))
+                return;
+            Context.SavedDishes.Add(new SavedDish { Dish = dish, User = user });
             Context.SaveChanges();
         }
 
         public void DeleteDish(Dish dish, User user)
         {
-            Context.Users.First(u => u.Id == user.Id).FavouriteDishes.Remove(dish);
-            Context.SaveChanges();
+            try
+            {
+                if (!Context.SavedDishes.Any(sd => sd.Dish.Id == dish.Id))
+                    return;
+                Context.SavedDishes.Remove(Context.SavedDishes.First(sd => sd.Dish.Id == dish.Id && sd.User.Id == user.Id));
+                Context.SaveChanges();
+            }
+            catch { }
         }
 
         public List<Dish> ShowSavedDishes(User user)
         {
-            return Context.Users.First(u => u.Id == user.Id).FavouriteDishes.ToList();
+            return Context.SavedDishes.Where(sd => sd.User.Id == user.Id).Select(sd => sd.Dish).ToList();
         }
 
         public void CreateUser(string name)
@@ -53,7 +61,6 @@ namespace TelegramCookingHelper.Classes
                 var user = new User
                 {
                     Name = name,
-                    FavouriteDishes = new List<Dish>()
                 };
                 Context.Users.Add(user);
                 Context.SaveChanges();
@@ -61,7 +68,7 @@ namespace TelegramCookingHelper.Classes
         }
 
         public bool IsNameUnique(string name) //проверяет, уникально ли имя пользователя
-        {                                      
+        {
             if (Context.Users.Any(u => u.Name == name))
                 return false;
             return true;
