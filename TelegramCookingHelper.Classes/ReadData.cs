@@ -24,56 +24,77 @@ namespace TelegramCookingHelper.Classes
 
         public List<Meal> ReadMeals(StreamReader sr)
         {
-            var line = sr.ReadLine();
-            var parts = line.Split(';');
-            var meals = new List<Meal>();
-            for (int i = 0; i < parts.Length; i++)
+            try
             {
-                var meal = new Meal { Name = parts[i] };
-                meals.Add(meal);
+                var line = sr.ReadLine();
+                var parts = line.Split(';');
+                var meals = new List<Meal>();
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    var meal = new Meal { Name = parts[i] };
+                    meals.Add(meal);
+                }
+                return meals;
             }
-            return meals;
+            catch
+            {
+                return new List<Meal>();
+            }
         }
 
 
         public List<MainIngredient> ReadIngredients(StreamReader sr)
         {
-            ReadMeals(sr);
-            var ingredients = new List<MainIngredient>();
-            int numberOfIngredients = int.Parse(sr.ReadLine());
-            for (int i=0; i<numberOfIngredients; i++)
+            try
             {
-                var line = sr.ReadLine();
-                var parts = line.Split(';');
-                var ingredient = new MainIngredient { Name = parts[0], Price = Decimal.Parse(parts[1]), WhereToBuy = parts[2], ImageReference=parts[3]};
-                ingredients.Add(ingredient);
-            } 
-            return ingredients;
+                ReadMeals(sr);
+                var ingredients = new List<MainIngredient>();
+                int numberOfIngredients = int.Parse(sr.ReadLine());
+                for (int i = 0; i < numberOfIngredients; i++)
+                {
+                    var line = sr.ReadLine();
+                    var parts = line.Split(';');
+                    var ingredient = new MainIngredient { Name = parts[0], Price = Decimal.Parse(parts[1]), WhereToBuy = parts[2], ImageReference = parts[3] };
+                    ingredients.Add(ingredient);
+                }
+                return ingredients;
+            }
+            catch
+            {
+                return new List<MainIngredient>();
+            }
         }
 
         public List<Dish> ReadDishes(StreamReader sr)
         {
-            ReadIngredients(sr);
-            var dishes = new List<Dish>();
-            int numberOfDishes = int.Parse(sr.ReadLine());
-            for (int i=0; i<numberOfDishes; i++)
+            try
             {
-                var line = sr.ReadLine();
-                var parts = line.Split(';');
-                var dish = new Dish { Name = parts[0], Recipe = parts[3] };
-                foreach (var meal in ReadMeals(new StreamReader(filename)))
+                ReadIngredients(sr);
+                var dishes = new List<Dish>();
+                int numberOfDishes = int.Parse(sr.ReadLine());
+                for (int i = 0; i < numberOfDishes; i++)
                 {
-                    if (meal.Name == parts[1])
-                        dish.Meal = meal;
+                    var line = sr.ReadLine();
+                    var parts = line.Split(';');
+                    var dish = new Dish { Name = parts[0], Recipe = parts[3] };
+                    foreach (var meal in ReadMeals(new StreamReader(filename)))
+                    {
+                        if (meal.Name == parts[1])
+                            dish.Meal = meal;
+                    }
+                    foreach (var ingredient in ReadIngredients(new StreamReader(filename)))
+                    {
+                        if (ingredient.Name == parts[2])
+                            dish.MainIngredient = ingredient;
+                    }
+                    dishes.Add(dish);
                 }
-                foreach (var ingredient in ReadIngredients(new StreamReader(filename)))
-                {
-                    if (ingredient.Name == parts[2])
-                        dish.MainIngredient = ingredient;
-                }
-                dishes.Add(dish);
-            } 
-            return dishes;
+                return dishes;
+            }
+            catch
+            {
+                return new List<Dish>();
+            }
         }
     }
 }

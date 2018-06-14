@@ -12,7 +12,7 @@ namespace TelegramCookingHelper.Classes.Interfaces
     public interface IRepository
     {
 
-        IEnumerable<Dish> Dishes{ get; }
+        IEnumerable<Dish> Dishes { get; }
         IEnumerable<MainIngredient> MainIngredients { get; }
         IEnumerable<Meal> Meals { get; }
 
